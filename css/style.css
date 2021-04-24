@@ -1,0 +1,190 @@
+/* RESETS */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+/* GENERAL STYLING */
+
+body {
+  margin: 0;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+/* BUTTONS */
+
+button {
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* LAYOUT */
+
+.page-container {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+}
+
+.events-menu {
+  background-color: #44849b;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.events-menu-title {
+  text-align: center;
+  margin: 0.5em;
+  font-weight: 400;
+  color: #c2e8f6;
+}
+.event {
+  position: relative;
+  padding: 1.5em;
+  text-align: center;
+  background-color: #18323d;
+  color: #e6e7e7;
+  font-size: 1.2rem;
+  font-weight: 100;
+  margin-bottom: 2px;
+}
+
+.trash {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.trash:hover {
+  color: darkcyan;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #c2e8f6;
+  height: 100vh;
+}
+
+.main-timer-container {
+  position: relative;
+  width: 730px;
+}
+
+.timer-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  background-color: #44849b;
+  width: 700px;
+  min-height: 300px;
+}
+
+.main-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #18323d;
+  height: 200px;
+  font-size: 4rem;
+  font-weight: 100;
+  color: #e6e7e7;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.main-timer span {
+  font-size: 2rem;
+  align-self: center;
+  margin: 0 0.7em 0 0.5em;
+}
+
+.main-timer p {
+  /* maybe add no wrap */
+  text-align: center;
+  width: 90%;
+  font-size: 50px;
+  padding-left: 0.2em;
+}
+
+.main-event-title {
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0.4em 0 0 0.8em;
+  font-size: 1.5rem;
+}
+
+.display-controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.5rem;
+  margin: 0 auto;
+  margin-bottom: 0.5em;
+  color: #18323d;
+}
+
+.display-controls i {
+  cursor: pointer;
+}
+
+form {
+  width: 400px;
+  margin-top: 2em;
+  color: #e6e7e7;
+}
+
+.inputs-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #44849b;
+  padding: 2em;
+}
+
+.inputs-container label {
+  margin-bottom: 0.3em;
+  font-size: 0.8em;
+}
+
+input {
+  margin-bottom: 1.5em;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+}
+
+.btn {
+  padding: 0.5em;
+  margin-top: 1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #cfcfcf;
+}
+
+.btn:active {
+  transform: scale(0.995);
+}

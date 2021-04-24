@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="js/script.js" defer></script>
+    <title>Countdown Timer Copy</title>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="events-menu">
+        <h2 class="events-menu-title">Events</h2>
+      </div>
+      <main>
+        <div class="main-timer-container">
+          <div class="timer-display">
+            <h2 class="main-event-title"></h2>
+            <div class="main-timer">
+              <p>
+                00<span class="days">Day</span>00<span class="hours">Hour</span
+                >00<span class="min">Min</span>00<span class="sec">Sec</span>
+              </p>
+            </div>
+            <div class="display-controls">
+              <i class="fas fa-save save"></i>
+              <i class="fas fa-sync-alt reset"></i>
+            </div>
+          </div>
+        </div>
+        <form id="event-form">
+          <div class="inputs-container">
+            <label for="event">Event</label>
+            <input type="text" id="event" placeholder="Event name" />
+            <label for="date">Date</label>
+            <input type="date" id="date" placeholder="Event date" />
+            <label for="time">Time (optional)</label>
+            <input type="time" id="time" placeholder="Event time" />
+            <button type="button" class="btn" id="start">Start</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>
