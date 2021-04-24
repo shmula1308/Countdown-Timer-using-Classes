@@ -65,7 +65,7 @@
         
         timerContainer.innerHTML = `<p>
         ${timer.days}<span class="days">${timer.days > 1 ? 'Days' : timer.days === 0 ?'Days' : 'Day'}</span>${timer.hours}<span class="hours">${timer.hours > 1 ? 'Hours': timer.hours === 0 ? 'Hours': "Hour"}</span
-        >${timer.min}<span class="min">Min</span>${timer.sec}<span class="sec">Sec</span>
+        >${timer.min < 10 ? '0' + timer.min : timer.min}<span class="min">Min</span>${timer.sec < 10 ? '0' + timer.sec : timer.sec}<span class="sec">Sec</span>
         </p>`
       }
    }
