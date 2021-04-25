@@ -26,7 +26,9 @@
 
       static eventObj = null;
       static timmy;
+      static sideTimmy;
       static eventsArr = [];
+      static eventTimeout;
 
       static createTimer(event) {
         let date = event.date;
@@ -59,7 +61,8 @@
         document.querySelector('.main-event-title').textContent = UI.eventObj.eventName;
 
         if(timer.distance < 0) {
-          timerContainer.innerHTML = 'DONE';
+          timerContainer.innerHTML = 'D O N E';
+          UI.eventTimeout = true;
           clearInterval(UI.timmy);  
           return;
         }
@@ -71,8 +74,9 @@
       }
   
       static addEventToSideMenu() {
-        let df = new DocumentFragment()
 
+        let df = new DocumentFragment();
+        
         UI.eventsArr.forEach(event => {
            let timer = UI.createTimer(event);
            let div = document.createElement('div');
@@ -85,9 +89,12 @@
            ${timer.min}<span class="min"> Min</span> ${timer.sec}<span class="sec"> Sec</span>
            </div>`
            if(timer.distance < 0) {
-             div.innerHTML = 'DONE';
+             div.innerHTML =`
+             <i class="fas fa-trash-alt trash"></i>
+             <div class="timer">
+             D  O  N  E
+             </div>`;
              clearInterval(UI.timmy);
-             
            }
            df.append(div);
         });
@@ -95,16 +102,61 @@
         eventsMenu.innerHTML = "<h2 class='events-menu-title'>Events</h2>";
         eventsMenu.append(df);
       }
+
+      static showAlert(date,eventName) {
+        if(!date && eventName) {
+          document.getElementById('event').style.border = 'none';
+          document.getElementById('date').style.border = 'none';
+          document.getElementById('date').style.border = '3px solid red';
+          UI.resetTimer();
+          clearInterval(UI.timmy);
+          return false;
+        }
+        if(!date && !eventName) {
+          document.getElementById('date').style.border = '3px solid red';
+          document.getElementById('event').style.border = '3px solid red';
+          document.getElementById('event').placeholder = 'Please provide event title';
+          UI.resetTimer();
+          clearInterval(UI.timmy);
+          return false;
+        }
+
+        document.getElementById('event').style.border = 'none';
+        document.getElementById('date').style.border = 'none';
+        document.getElementById('event').placeholder = "Event name";
+        return true;
+      }
+      static resetTimer() {
+        document.querySelector('.main-event-title').textContent = "";
+        let timer = document.querySelector('.main-timer');
+        timer.innerHTML = `<p>
+        00<span class="days">Day</span>00<span class="hours">Hour</span
+        >00<span class="min">Min</span>00<span class="sec">Sec</span>
+        </p>`
+      }
+
+      static removeEvent(target) {
+       target.parentNode.remove();
+      }
     }
 
    
 
-  // Store class: Handles all the tasks related to local storage
-  //  class Store {
+  //Store class: Handles all the tasks related to local storage
+   class Store {
+      static setStore(events){
+        localStorage.setItem('events',JSON.stringify(events));
+      }
 
-  //  }
+      static getStore() {
+        if(JSON.parse(localStorage.getItem('events')) === null) {
+          UI.eventsArr = [];
+         } else {
+          UI.eventsArr = JSON.parse(localStorage.getItem('events'))
+         } 
+      }
 
-
+    }
    //Event: Start countdown
 
    document.getElementById('start').addEventListener('click', (ev) => {
@@ -115,25 +167,69 @@
       const time = document.getElementById('time').value;
       const eventName = document.getElementById('event').value;
 
-      //Instantiate new event using Event constructor
+      if(!UI.showAlert(date,eventName)) return;
+
+      //Instantiate new event object using Event constructor
       const event = new Event(eventName,date,time); 
 
       //Assign new event to a static (accessible from outside) variable inside UI class. Which is later passed to updateTimer method inside UI class
       UI.eventObj = event;
-  
+      
+      let form = document.querySelector('#event-form');
+      form.reset();
       //Assign setInterval to static variable timmy inside UI class to be used with clearInterval when condition is met
       UI.timmy = setInterval(UI.updateTimer,1000)
    })
   
 
-  //  Event: Save event
+  //  Event: Save or reset event
 
      document.querySelector('.display-controls').addEventListener('click',(ev) => {
+       
         if(ev.target.matches('.save')) {
-          if(!UI.eventObj) {
-            return;
-          }
-          UI.eventsArr.push(UI.eventObj);
-          UI.timmy = setInterval(UI.addEventToSideMenu,1000);
+            if(!UI.eventObj) {
+              return;
+            }
+
+            let eventInStore = UI.eventsArr.filter(evObj => evObj.eventName === UI.eventObj.eventName).length;
+            
+            if(eventInStore === 1) {
+              alert("The event already exists! Please rename the event.")
+              return;
+            }
         }
-     })
+
+        if(ev.target.matches('.reset')) {
+          UI.resetTimer()
+          clearInterval(UI.timmy);
+          UI.eventObj = null;
+          return;
+        }
+          
+          UI.eventsArr.push(UI.eventObj);
+          Store.setStore(UI.eventsArr);
+          UI.sideTimmy = setInterval(UI.addEventToSideMenu,1000);
+        })
+    
+    //Event: Remove event from side menu
+
+    document.querySelector('.events-menu').addEventListener('click',(ev) => {
+      if(ev.target.matches('.trash')) {
+        UI.removeEvent(ev.target);
+        
+        Store.getStore();
+        let id = ev.target.parentNode.dataset.evName;
+        UI.eventsArr = UI.eventsArr.filter(e => e.eventName != id);
+        Store.setStore(UI.eventsArr);
+      }
+   })
+
+
+   //Event: When page loads check local storage
+
+   document.addEventListener('DOMContentLoaded', () => {
+    Store.getStore();
+    if(!UI.eventsArr.length) return;
+    UI.sideTimmy = setInterval(UI.addEventToSideMenu,1000);
+
+})
